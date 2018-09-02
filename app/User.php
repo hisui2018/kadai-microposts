@@ -85,34 +85,32 @@ class User extends Authenticatable
         return $this->followings()->where('follow_id', $userId)->exists();
     }
     
-    public function favorite($userId)
+    public function favorite($content_id)
     {
         
         // 既にフォローしているかの確認
-        $exist = $this->is_favorites($userId);
-        // 自分自身ではないかの確認
-        $its_me = $this->id == $userId;
+        $exist = $this->is_favorites($content_id);
+        $its_me = $this->id == $content_id;
     
         if ($exist || $its_me) {
             // 既にフォローしていれば何もしない
             return false;
         } else {
             // 未フォローであればフォローする
-            $this->favorites()->attach($userId);
+            $this->favorites()->attach($content_id);
             return true;
         }
     }
     
-    public function unfavorite($userId)
+    public function unfavorite($content_id)
     {
         // 既にフォローしているかの確認
-        $exist = $this->is_favorites($userId);
-        // 自分自身ではないかの確認
-        $its_me = $this->id == $userId;
-    
+        $exist = $this->is_favorites($content_id);
+        $its_me = $this->id == $content_id;
+         
         if ($exist && !$its_me) {
             // 既にフォローしていればフォローを外す
-            $this->favorites()->detach($userId);
+            $this->favorites()->detach($content_id);
             return true;
         } else {
             // 未フォローであれば何もしない
