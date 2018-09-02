@@ -13,16 +13,14 @@
                 <p>{!! nl2br(e($micropost->content)) !!}</p>
             </div>
             <div>
-                @if (Auth::id() != $micropost->id)
-                    @if (Auth::user()->is_favorites($micropost->id))
-                        {!! Form::open(['route' => ['microposts.unfavorites', $micropost->id], 'method' => 'delete']) !!}
-                            {!! Form::submit('UnFavorites', ['class' => "btn btn-success btn-xs"]) !!}
-                        {!! Form::close() !!}
-                    @else
-                        {!! Form::open(['route' => ['microposts.favorites', $micropost->id]]) !!}
-                            {!! Form::submit('Favorites', ['class' => "btn btn-default btn-xs"]) !!}
-                        {!! Form::close() !!}
-                    @endif
+                @if (Auth::user()->is_favorites($micropost->id))
+                    {!! Form::open(['route' => ['microposts.unfavorites', $micropost->id], 'method' => 'delete']) !!}
+                        {!! Form::submit('UnFavorites', ['class' => "btn btn-success btn-xs"]) !!}
+                    {!! Form::close() !!}
+                @else
+                    {!! Form::open(['route' => ['microposts.favorites', $micropost->id]]) !!}
+                        {!! Form::submit('Favorites', ['class' => "btn btn-default btn-xs"]) !!}
+                    {!! Form::close() !!}
                 @endif
                 @if (Auth::id() == $micropost->user_id)
                     {!! Form::open(['route' => ['microposts.destroy', $micropost->id], 'method' => 'delete']) !!}
